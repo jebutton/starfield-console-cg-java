@@ -11,6 +11,7 @@ public class ItemType {
 	private String idValue;
 	private String itemName;
 	private String itemCategory;
+	private boolean isDLC;
 	
 	/**
 	 * Default Constructor.
@@ -78,6 +79,14 @@ public class ItemType {
 	}
 	
 	/**
+	 * Returns whether or not the item is a DLC Item.
+	 * @return boolean, whether the item is DLC.
+	 */
+	public boolean getDLCFlag() {
+		return this.isDLC;
+	}
+
+	/**
 	 * Sets the Item's ID Value.
 	 * @param idValue String, the Item's Value.
 	 */
@@ -99,6 +108,14 @@ public class ItemType {
 	 */
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+
+	/**
+	 * Sets whether the item is a DLC item or not.
+	 * @param isDLC boolean, whether the item is a DLC item or not.
+	 */
+	public void setDLCFlag(boolean isDLC) {
+		this.isDLC = isDLC;
 	}
 
 }
