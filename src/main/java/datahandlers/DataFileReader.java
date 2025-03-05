@@ -26,6 +26,7 @@ public class DataFileReader {
 	private String filePath;
 	private Map<String, ItemType> resources;
 	private Map<String, ItemType> spaceSuits;
+	private Map<String, ItemType> helmets;
 	
 	public DataFileReader() {
 		this.filePath = ".\\data\\Starfield_Datatable.xls";
@@ -45,6 +46,7 @@ public class DataFileReader {
 	private void initDataStructures() {
 		this.resources = new LinkedHashMap<String, ItemType>();
 		this.spaceSuits = new LinkedHashMap<String, ItemType>();
+		this.helmets = new LinkedHashMap<String, ItemType>();
 	}
 	
 	/**
@@ -54,6 +56,7 @@ public class DataFileReader {
 	private void loadData() {
 		this.loadResources();
 		this.loadSpaceSuits();
+		this.loadHelmets();
     }
 	
 	/**
@@ -145,7 +148,7 @@ public class DataFileReader {
 	}
 	
 	/**
-	 * Loads all of the resources.
+	 * Loads all of the Space Suits.
 	 * @throws IOException 
 	 */
 	private void loadSpaceSuits(){
@@ -186,6 +189,62 @@ public class DataFileReader {
 	}
 	
 	/**
+	 * Loads all of the Helmets.
+	 * @throws IOException 
+	 */
+	private void loadHelmets(){
+		File dataFile = new File(this.filePath);
+		try (
+				FileInputStream inputStream = new FileInputStream(dataFile);
+				HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+			) {
+
+	        HSSFSheet sheet = workbook.getSheet("Helmets");
+	          
+	        Iterator<Row> iterator = sheet.iterator();
+	  
+	        // Skip First row
+	        iterator.next();
+	        
+	        // Iterate through all rows and add each resource to the Resources HashMap.
+	        while (iterator.hasNext()) {
+	            Row nextRow = iterator.next();
+	            String itemName = nextRow.getCell(0).getStringCellValue();
+	            
+	            String itemId = nextRow.getCell(1).getStringCellValue();
+	            
+	            ItemType newHelmet = new ItemType(itemId, itemName);
+	            newHelmet.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
+	            
+	            this.helmets.put(itemName, newHelmet);
+	        }
+	  
+		} catch (FileNotFoundException e) {
+			this.handleMissingFiles(this.filePath);
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Gets the LinkedHashMap for the Helmets.
+	 * @return a LinkedHashMap<String, ItemType> of the Helmets.
+	 */
+	public Map<String, ItemType> getHelmets(){
+		return this.helmets;
+	}
+	
+	/**
+	 * Gets a specific Helmet by name.
+	 * @return an ItemType of the Helmet.
+	 */
+	public ItemType getAHelmet(String itemName) {
+		return this.helmets.get(itemName);
+	}
+	
+	/**
 	 * Gets the LinkedHashMap for the resources.
 	 * @return a LinkedHashMap<String, ItemType> of the resources.
 	 */
@@ -216,4 +275,6 @@ public class DataFileReader {
 	public ItemType getASpaceSuit(String itemName) {
 		return this.spaceSuits.get(itemName);
 	}
+	
+	
 }
