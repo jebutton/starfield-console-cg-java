@@ -14,9 +14,9 @@ import datahandlers.DataFileReader;
 public class StarfieldConsoleCGJava {
 
 	/**
-	 * Main method for the program.
-	 * @param args
-	 */
+	* Main method for the program.
+	* @param args
+	*/
 	public static void main(String[] args) {
 		DataFileReader dataset = new DataFileReader();
 		System.out.println(dataset.getAResource("Argon"));
