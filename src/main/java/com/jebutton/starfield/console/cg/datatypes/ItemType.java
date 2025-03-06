@@ -1,7 +1,7 @@
 /**
  * A Class for Items that will be inherited from.
  */
-package datatypes;
+package com.jebutton.starfield.console.cg.datatypes;
 
 /**
  * A class representing an item in the game, like a resource

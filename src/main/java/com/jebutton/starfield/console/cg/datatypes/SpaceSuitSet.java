@@ -1,7 +1,7 @@
 /**
  * A class for handling Space Suit sets.
  */
-package datatypes;
+package com.jebutton.starfield.console.cg.datatypes;
 
 /**
  * A class for handling Space Suit Sets.

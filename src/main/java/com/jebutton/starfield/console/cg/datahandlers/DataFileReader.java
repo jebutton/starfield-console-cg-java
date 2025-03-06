@@ -1,12 +1,13 @@
 /**
  * A class for handling reading the data of the Excel File.
  */
-package datahandlers;
+package com.jebutton.starfield.console.cg.datahandlers;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import datatypes.ItemType;
+import com.jebutton.starfield.console.cg.datatypes.*;
 
 /**
  * Handles the reading of the data sheet with all of the information on it.
@@ -28,7 +29,7 @@ public class DataFileReader {
     private Map<String, ItemType> helmets;
 
     public DataFileReader() {
-        this.filePath = ".\\data\\Starfield_Datatable.xls";
+        this.filePath = "Starfield_Datatable.xls";
         this.initDataStructures();
         loadData();
     }
@@ -116,10 +117,9 @@ public class DataFileReader {
      * Loads all of the resources.
      */
     private void loadResources() {
-        File dataFile = new File(this.filePath);
         try (
-                FileInputStream inputStream = new FileInputStream(dataFile);
-                HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
         ) {
             HSSFSheet sheet = workbook.getSheet("Resources");
             
@@ -150,9 +150,8 @@ public class DataFileReader {
  * @throws IOException 
  */
 private void loadSpaceSuits(){
-    File dataFile = new File(this.filePath);
     try (
-        FileInputStream inputStream = new FileInputStream(dataFile);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
         HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
     ) {
         
@@ -189,11 +188,10 @@ private void loadSpaceSuits(){
      * @throws IOException 
      */
     private void loadHelmets(){
-        File dataFile = new File(this.filePath);
         try (
-                FileInputStream inputStream = new FileInputStream(dataFile);
-                HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-            ) {
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        ) {
 
             HSSFSheet sheet = workbook.getSheet("Helmets");
               

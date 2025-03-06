@@ -1,11 +1,13 @@
+package com.jebutton.starfield.console.cg;
 /**
+
  * A program to be able to output console codes
  * for the Video Game Starfield.
  * 
- * Created by Jacqueline Button.
+ * Created by jebutton.
  */
 
-import datahandlers.DataFileReader;
+import com.jebutton.starfield.console.cg.datahandlers.DataFileReader;
 
 
 /**
@@ -19,7 +21,7 @@ public class StarfieldConsoleCGJava {
     */
     public static void main(String[] args) {
         DataFileReader dataset = new DataFileReader();
-        System.out.println(dataset.getAResource("Argon"));
+        System.out.println(dataset.getAResource("Iron"));
     }
 
 }

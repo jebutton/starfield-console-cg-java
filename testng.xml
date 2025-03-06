@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="DataReadTests">
-  <test thread-count="5" name="verifyResourcesLoad">
-  </test> <!-- verifyResourcesLoad -->
+    <test thread-count="5" name ="DataReadTest">
+        <classes>
+            <class name="com.jebutton.starfield.console.cg.tests.DataReadTests" />
+        </classes>
+    </test>
+
 </suite> <!-- DataReadTests -->

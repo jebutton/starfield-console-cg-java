@@ -1,4 +1,4 @@
-
+package com.jebutton.starfield.console.cg.tests;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -8,8 +8,8 @@ import java.util.Set;
 
 import org.testng.Assert;
 
-import datahandlers.DataFileReader;
-import datatypes.ItemType;
+import com.jebutton.starfield.console.cg.datatypes.*;
+import com.jebutton.starfield.console.cg.datahandlers.DataFileReader;
 
 public class DataReadTests {
 
@@ -40,6 +40,7 @@ public class DataReadTests {
     @BeforeSuite
     private void setSharedTestReader() {
         sharedTestReader = new DataFileReader();
+        System.out.println(this.getClass());
     }
 
     @Test
@@ -79,10 +80,6 @@ public class DataReadTests {
     public void verifySpaceSuitsCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testSpaceSuits = testReader.getSpaceSuits();
-        Set<String> suitKeys = testSpaceSuits.keySet();
-        for (String suitKey : suitKeys) {
-            System.out.println(suitKey);
-        }
         
         Assert.assertEquals(testSpaceSuits.size(), 65);
     }
@@ -142,11 +139,7 @@ public class DataReadTests {
     public void verifyHelmetsCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testHelmets = testReader.getHelmets();
-        Set<String> helmetKeys = testHelmets.keySet();
-        for (String helmetKey : helmetKeys) {
-            System.out.println(helmetKey);
-        }
-        
+
         Assert.assertEquals(testHelmets.size(), 48);
     }
 
