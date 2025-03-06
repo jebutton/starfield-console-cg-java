@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="DataReadTests">
+
     <test thread-count="5" name ="DataReadTest">
+        <groups>
+            <run>
+                <include name="Resources"/>
+                <include name="Space Suits"/>
+                <include name="Helmets"/>
+                <include name="Packs"/>
+                <include name="Space Suit Sets"/>
+            </run>
+        </groups>
         <classes>
             <class name="com.jebutton.starfield.console.cg.tests.DataReadTests" />
         </classes>
+
     </test>
 
 </suite> <!-- DataReadTests -->

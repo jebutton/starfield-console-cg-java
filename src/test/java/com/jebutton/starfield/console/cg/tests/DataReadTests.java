@@ -1,4 +1,8 @@
 package com.jebutton.starfield.console.cg.tests;
+
+import org.testng.annotations.AfterGroups;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -33,24 +37,23 @@ public class DataReadTests {
     /**
     * Sets up a Shared instance of the DataFileReader class
     * so that tests that involve checking the data don't
-    * cause performance hits from constantly reading the
-    * Excel file when we don't care about the state of 
-    * the DataFileReader's code execution.
+    * cause performance hits. This happens when constantly
+    * reading the Excel file when we don't care about
+    * the state of the DataFileReader's code execution.
     */
-    @BeforeSuite
+    @BeforeGroups(groups = {"Space Suits", "Helmets"})
     private void setSharedTestReader() {
-        sharedTestReader = new DataFileReader();
-        System.out.println(this.getClass());
+        this.sharedTestReader = new DataFileReader();
     }
 
-    @Test
+    @Test(groups = { "Resources" })	
     public void verifyResourcesLoad() {
         DataFileReader testReader = new DataFileReader();
         
         Assert.assertEquals(testReader.getAResource("Argon").getItemName(), "Argon");
       }
 
-    @Test
+    @Test(groups = { "Resources" })
     public void verifyResourcesCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testResources = testReader.getResources();
@@ -58,7 +61,7 @@ public class DataReadTests {
         Assert.assertEquals(testResources.size(), 107);
     }
 
-    @Test
+    @Test(groups = { "Resources" })
     public void verifyResourcesSort() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testResources = testReader.getResources();
@@ -69,14 +72,14 @@ public class DataReadTests {
         Assert.assertEquals(resourceKeys.toArray()[106], "Zero-G Gimbal");
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsLoad() {
         DataFileReader testReader = new DataFileReader();
         
         Assert.assertEquals(testReader.getASpaceSuit("Bounty Hunter Spacesuit").getItemName(), "Bounty Hunter Spacesuit");
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testSpaceSuits = testReader.getSpaceSuits();
@@ -84,7 +87,7 @@ public class DataReadTests {
         Assert.assertEquals(testSpaceSuits.size(), 65);
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsSort() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testSpaceSuits = testReader.getSpaceSuits();
@@ -95,7 +98,7 @@ public class DataReadTests {
         Assert.assertEquals(suitKeys.toArray()[64], "Zealot Spacesuit");
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
@@ -109,33 +112,25 @@ public class DataReadTests {
         Assert.assertEquals(testReader.getASpaceSuit("Va'ruun Assault Spacesuit").getDLCFlag(), true);
     }
     
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsDLCFlagFalseCount() {
-        /*
-        * Use a shared DataFileReader instance because this isn't testing
-        * whether the DataFileReader class is working as much as it is
-        * testing whether the data is correct. 
-        */
-        Map<String, ItemType> spaceSuits = sharedTestReader.getSpaceSuits();
+	//Use a shared DataFileReader instance to save performance.
+        Map<String, ItemType> spaceSuits = this.sharedTestReader.getSpaceSuits();
         int countOfFalse = this.countDLCs(spaceSuits, false);
         
         Assert.assertEquals(countOfFalse, 58);
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsDLCFlagTrueCount() {
-        /*
-        * Use a shared DataFileReader instance because this isn't testing
-        * whether the DataFileReader class is working as much as it is
-        * testing whether the data is correct. 
-        */
-        Map<String, ItemType> spaceSuits = sharedTestReader.getSpaceSuits();
+	//Use a shared DataFileReader instance to save performance.
+        Map<String, ItemType> spaceSuits = this.sharedTestReader.getSpaceSuits();
         int countOfTrue = this.countDLCs(spaceSuits, true);
         
         Assert.assertEquals(countOfTrue, 7);
     }
 
-    @Test
+    @Test(groups = { "Space Suits" })
     public void verifyHelmetsCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testHelmets = testReader.getHelmets();
@@ -143,7 +138,7 @@ public class DataReadTests {
         Assert.assertEquals(testHelmets.size(), 48);
     }
 
-    @Test
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsSort() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testHelmets = testReader.getHelmets();
@@ -154,20 +149,20 @@ public class DataReadTests {
         Assert.assertEquals(helmetKeys.toArray()[47], "Zealot Helmet");
     }
 
-    @Test
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
         Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet").getDLCFlag(), false);
     }
 
-    @Test
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagTrue() {
         DataFileReader testReader = new DataFileReader();
         Assert.assertEquals(testReader.getAHelmet("Valrak's Battle Helmet").getDLCFlag(), true);
     }
 
-    @Test
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagFalseCount() {
         //Use a shared DataFileReader instance to save performance.
         Map<String, ItemType> helmets = this.sharedTestReader.getHelmets();
@@ -176,7 +171,7 @@ public class DataReadTests {
         Assert.assertEquals(countOfFalse, 41);
     }
 
-    @Test
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagTrueCount() {
         //Use a shared DataFileReader instance to save performance.
         Map<String, ItemType> helmets = this.sharedTestReader.getHelmets();
