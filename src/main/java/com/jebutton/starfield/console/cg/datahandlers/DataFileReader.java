@@ -27,6 +27,7 @@ public class DataFileReader {
     private Map<String, ItemType> resources;
     private Map<String, ItemType> spaceSuits;
     private Map<String, ItemType> helmets;
+    private Map<String, ItemType> packs;
 
     public DataFileReader() {
         this.filePath = "Starfield_Datatable.xls";
@@ -47,6 +48,7 @@ public class DataFileReader {
         this.resources = new LinkedHashMap<String, ItemType>();
         this.spaceSuits = new LinkedHashMap<String, ItemType>();
         this.helmets = new LinkedHashMap<String, ItemType>();
+        this.packs = new LinkedHashMap<String, ItemType>();
     }
 
     /**
@@ -57,6 +59,7 @@ public class DataFileReader {
         this.loadResources();
         this.loadSpaceSuits();
         this.loadHelmets();
+        this.loadPacks();
     }
 
     /**
@@ -145,47 +148,45 @@ public class DataFileReader {
         }
     }
     
-/**
- * Loads all of the Space Suits.
- * @throws IOException 
- */
-private void loadSpaceSuits(){
-    try (
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
-        HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-    ) {
-        
-        HSSFSheet sheet = workbook.getSheet("Spacesuits");          
-        Iterator<Row> iterator = sheet.iterator();
-          
-        // Skip First row
-        iterator.next();
-        
-        // Iterate through all rows and add each resource to the Resources HashMap.
-        while (iterator.hasNext()) {
-            Row nextRow = iterator.next();
-            String itemName = nextRow.getCell(0).getStringCellValue();
-                    
-            String itemId = nextRow.getCell(1).getStringCellValue();
-                    
-            ItemType newSpaceSuit = new ItemType(itemId, itemName);
-            newSpaceSuit.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
-                    
-            this.spaceSuits.put(itemName, newSpaceSuit);
-        }
-        
-        } catch (FileNotFoundException e) {
-            this.handleMissingFiles(this.filePath);
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-}
+    /**
+     * Loads all of the Space Suits.
+     */
+    private void loadSpaceSuits(){
+        try (
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        ) {
+            
+            HSSFSheet sheet = workbook.getSheet("Spacesuits");          
+            Iterator<Row> iterator = sheet.iterator();
+              
+            // Skip First row
+            iterator.next();
+            
+            // Iterate through all rows and add each resource to the Resources HashMap.
+            while (iterator.hasNext()) {
+                Row nextRow = iterator.next();
+                String itemName = nextRow.getCell(0).getStringCellValue();
+                        
+                String itemId = nextRow.getCell(1).getStringCellValue();
+                        
+                ItemType newSpaceSuit = new ItemType(itemId, itemName);
+                newSpaceSuit.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
+                        
+                this.spaceSuits.put(itemName, newSpaceSuit);
+            }
+            
+            } catch (FileNotFoundException e) {
+                this.handleMissingFiles(this.filePath);
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+    }
 
     /**
-     * Loads all of the Helmets.
-     * @throws IOException 
+     * Loads all of the Helmets. 
      */
     private void loadHelmets(){
         try (
@@ -223,6 +224,44 @@ private void loadSpaceSuits(){
     }
     
     /**
+     * Loads all of the Packs. 
+     */
+    private void loadPacks(){
+        try (
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        ) {
+
+            HSSFSheet sheet = workbook.getSheet("Packs");
+              
+            Iterator<Row> iterator = sheet.iterator();
+      
+            // Skip First row
+            iterator.next();
+            
+            // Iterate through all rows and add each resource to the Resources HashMap.
+            while (iterator.hasNext()) {
+                Row nextRow = iterator.next();
+                String itemName = nextRow.getCell(0).getStringCellValue();
+                
+                String itemId = nextRow.getCell(1).getStringCellValue();
+                
+                ItemType newPack = new ItemType(itemId, itemName);
+                newPack.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
+                
+                this.packs.put(itemName, newPack);
+            }
+      
+        } catch (FileNotFoundException e) {
+            this.handleMissingFiles(this.filePath);
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Gets the LinkedHashMap for the Helmets.
      * @return a LinkedHashMap<String, ItemType> of the Helmets.
      */
@@ -236,6 +275,22 @@ private void loadSpaceSuits(){
      */
     public ItemType getAHelmet(String itemName) {
         return this.helmets.get(itemName);
+    }
+    
+    /**
+     * Gets the LinkedHashMap for the Packs.
+     * @return a LinkedHashMap<String, ItemType> of the Packs.
+     */
+    public Map<String, ItemType> getPacks(){
+        return this.packs;
+    }
+    
+    /**
+     * Gets a specific Pack by name.
+     * @return an ItemType of the Pack.
+     */
+    public ItemType getAPack(String itemName) {
+        return this.packs.get(itemName);
     }
     
     /**

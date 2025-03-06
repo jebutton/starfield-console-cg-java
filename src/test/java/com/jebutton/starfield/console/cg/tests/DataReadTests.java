@@ -41,7 +41,7 @@ public class DataReadTests {
     * reading the Excel file when we don't care about
     * the state of the DataFileReader's code execution.
     */
-    @BeforeGroups(groups = {"Space Suits", "Helmets"})
+    @BeforeGroups(groups = {"Space Suits", "Helmets", "Packs", "Space Suit Sets"})
     private void setSharedTestReader() {
         this.sharedTestReader = new DataFileReader();
     }
@@ -129,8 +129,15 @@ public class DataReadTests {
         
         Assert.assertEquals(countOfTrue, 7);
     }
+   
+    @Test(groups = { "Helmets" })
+    public void verifyHelmetsLoad() {
+        DataFileReader testReader = new DataFileReader();
+        
+        Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet").getItemName(), "Bounty Hunter Space Helmet");
+    }
 
-    @Test(groups = { "Space Suits" })
+    @Test(groups = { "Helmets" })
     public void verifyHelmetsCount() {
         DataFileReader testReader = new DataFileReader();
         Map<String, ItemType> testHelmets = testReader.getHelmets();
@@ -178,5 +185,62 @@ public class DataReadTests {
         int countOfTrue = this.countDLCs(helmets, true);
         
         Assert.assertEquals(countOfTrue, 7);
+    }
+    
+    @Test(groups = { "Packs" })
+    public void verifyPacksLoad() {
+        DataFileReader testReader = new DataFileReader();
+        
+        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack").getItemName(), "Bounty Hunter Seek Pack");
+    }
+
+    @Test(groups = { "Packs" })
+    public void verifyPacksCount() {
+        DataFileReader testReader = new DataFileReader();
+        Map<String, ItemType> testPacks = testReader.getPacks();
+
+        Assert.assertEquals(testPacks.size(), 43);
+    }
+    
+    @Test(groups = { "Packs" })
+    public void verifyPacksSort() {
+        DataFileReader testReader = new DataFileReader();
+        Map<String, ItemType> testPacks = testReader.getPacks();
+        Set<String> packKeys = testPacks.keySet();
+        
+        Assert.assertEquals(packKeys.toArray()[0], "Bounty Hunter Seek Pack");
+        Assert.assertEquals(packKeys.toArray()[21], "Old Earth Pack");
+        Assert.assertEquals(packKeys.toArray()[42], "Zealot Pack");
+    }
+
+    @Test(groups = { "Packs" })
+    public void verifyPacksDLCFlagFalse() {
+        DataFileReader testReader = new DataFileReader();
+        
+        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack").getDLCFlag(), false);
+    }
+
+    @Test(groups = { "Packs" })
+    public void verifyPacksDLCFlagTrue() {
+        DataFileReader testReader = new DataFileReader();
+        Assert.assertEquals(testReader.getAPack("Va'ruun Mining Pack").getDLCFlag(), true);
+    }
+
+    @Test(groups = { "Packs" })
+    public void verifyPacksDLCFlagFalseCount() {
+        //Use a shared DataFileReader instance to save performance.
+        Map<String, ItemType> packs = this.sharedTestReader.getPacks();
+        int countOfFalse = this.countDLCs(packs, false);
+        
+        Assert.assertEquals(countOfFalse, 38);
+    }
+
+    @Test(groups = { "Packs" })
+    public void verifyPacksDLCFlagTrueCount() {
+        //Use a shared DataFileReader instance to save performance.
+        Map<String, ItemType> packs = this.sharedTestReader.getPacks();
+        int countOfTrue = this.countDLCs(packs, true);
+        
+        Assert.assertEquals(countOfTrue, 5);
     }
 }
