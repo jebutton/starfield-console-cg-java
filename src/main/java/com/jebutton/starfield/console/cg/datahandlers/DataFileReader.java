@@ -28,6 +28,7 @@ public class DataFileReader {
     private Map<String, ItemType> spaceSuits;
     private Map<String, ItemType> helmets;
     private Map<String, ItemType> packs;
+    private Map<String, SpaceSuitSet> spaceSuitSets;
 
     public DataFileReader() {
         this.filePath = "Starfield_Datatable.xls";
@@ -49,6 +50,7 @@ public class DataFileReader {
         this.spaceSuits = new LinkedHashMap<String, ItemType>();
         this.helmets = new LinkedHashMap<String, ItemType>();
         this.packs = new LinkedHashMap<String, ItemType>();
+        this.spaceSuitSets = new LinkedHashMap<String, SpaceSuitSet>();
     }
 
     /**
@@ -60,6 +62,7 @@ public class DataFileReader {
         this.loadSpaceSuits();
         this.loadHelmets();
         this.loadPacks();
+        this.loadSpaceSuitSets();
     }
 
     /**
@@ -113,7 +116,7 @@ public class DataFileReader {
      * @param filePath a String of the file path.
      */
     private void handleMissingFiles(String filePath) {
-        System.out.println("The File  at " + filePath + " is missing.");
+        System.out.println("The File  at " + filePath + " is missing or otherwise unreadable.");
     }
 
     /**
@@ -143,7 +146,7 @@ public class DataFileReader {
             this.handleMissingFiles(this.filePath);
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            this.handleMissingFiles(this.filePath);
             e.printStackTrace();
         }
     }
@@ -180,7 +183,7 @@ public class DataFileReader {
                 this.handleMissingFiles(this.filePath);
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+                this.handleMissingFiles(this.filePath);
                 e.printStackTrace();
             }
     }
@@ -218,7 +221,7 @@ public class DataFileReader {
             this.handleMissingFiles(this.filePath);
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            this.handleMissingFiles(this.filePath);
             e.printStackTrace();
         }
     }
@@ -256,8 +259,56 @@ public class DataFileReader {
             this.handleMissingFiles(this.filePath);
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            this.handleMissingFiles(this.filePath);
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Loads all of the Space Suit Sets.
+     */
+    private void loadSpaceSuitSets(){
+        try (
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.filePath);
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        ) {
+            
+            HSSFSheet sheet = workbook.getSheet("Spacesuit_Sets");
+              
+            Iterator<Row> iterator = sheet.iterator();
+      
+            // Skip First row
+            iterator.next();
+            
+            // Iterate through all rows and add each resource to the Resources HashMap.
+            while (iterator.hasNext()) {
+                Row nextRow = iterator.next();
+                
+                String itemName = nextRow.getCell(0).getStringCellValue();
+                String suitName = nextRow.getCell(1).getStringCellValue();
+                String helmetName = nextRow.getCell(2).getStringCellValue();
+                String packName = nextRow.getCell(3).getStringCellValue();
+                
+                SpaceSuitSet newSet = new SpaceSuitSet();
+                newSet.setItemName(itemName);
+                newSet.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(5)));                
+                newSet.setSpaceSuitItem(this.getASpaceSuit(suitName));
+                newSet.setHelmetItem(this.getAHelmet(helmetName));
+                newSet.setPackItem(this.getAPack(packName));
+
+                this.spaceSuitSets.put(itemName, newSet);
+            }
+      
+        } catch (FileNotFoundException e) {
+            this.handleMissingFiles(this.filePath);
+            e.printStackTrace();
+        } catch (IOException e) {
+            this.handleMissingFiles(this.filePath);
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("One or more of the component data structures are null");
+            System.out.println(e.getMessage());
+           e.printStackTrace();
         }
     }
     
@@ -325,5 +376,20 @@ public class DataFileReader {
         return this.spaceSuits.get(itemName);
     }
     
+    /**
+     * Gets the LinkedHashMap for the Space Suit Sets.
+     * @return a LinkedHashMap<String, ItemType> of the Space Suit Sets.
+     */
+    public Map<String, SpaceSuitSet> getSpaceSuitSets(){
+        return this.spaceSuitSets;
+    }
+    
+    /**
+     * Gets a specific Space Suit Set by name.
+     * @return an SpaceSuitSet of the Space Suit Set.
+     */
+    public SpaceSuitSet getASpaceSuitSet(String itemName) {
+        return this.spaceSuitSets.get(itemName);
+    }
     
 }

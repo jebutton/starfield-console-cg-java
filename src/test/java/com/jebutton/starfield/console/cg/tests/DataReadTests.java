@@ -18,16 +18,33 @@ import com.jebutton.starfield.console.cg.datahandlers.DataFileReader;
 public class DataReadTests {
 
     DataFileReader sharedTestReader;
+    
     /**
     * Counts the DLC flags based on desired value.
     * @param itemMap a Map<String, ItemType> with the items in it.
     * @param flag a boolean of whether you want it to check for DLC or not.
     * @return an integer of the number of items that match that value.
     */
-    private int countDLCs (Map<String, ItemType> itemMap, boolean flag) {
+    private int countDLCs(Map<String, ItemType> itemMap, boolean flag) {
         int countOfFlag = 0;
-        for (Entry<String, ItemType> helmet : itemMap.entrySet()) {
-            if (helmet.getValue().getDLCFlag() == flag) {
+        for (Entry<String, ItemType> item : itemMap.entrySet()) {
+            if (item.getValue().getDLCFlag() == flag) {
+                countOfFlag++;
+            }
+        }
+        return countOfFlag;
+    }
+    
+    /**
+    * Counts the DLC flags based on desired value for the SpaceSuitSets
+    * @param spaceSuitSetsMap a Map<String, SpaceSuitSet> with the items in it.
+    * @param flag a boolean of whether you want it to check for DLC or not.
+    * @return an integer of the number of items that match that value.
+    */
+    private int countDLCSpaceSuitSets(Map<String, SpaceSuitSet> spaceSuitSetsMap, boolean flag) {
+        int countOfFlag = 0;
+        for (Entry<String, SpaceSuitSet> item : spaceSuitSetsMap.entrySet()) {
+            if (item.getValue().getDLCFlag() == flag) {
                 countOfFlag++;
             }
         }
@@ -242,5 +259,62 @@ public class DataReadTests {
         int countOfTrue = this.countDLCs(packs, true);
         
         Assert.assertEquals(countOfTrue, 5);
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsLoad() {
+        DataFileReader testReader = new DataFileReader();
+        
+        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1").getItemName(), "Bounty Hunter 1");
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsCount() {
+        DataFileReader testReader = new DataFileReader();
+        Map<String, SpaceSuitSet> testSpaceSuitSets = testReader.getSpaceSuitSets();
+
+        Assert.assertEquals(testSpaceSuitSets.size(), 85);
+    }
+    
+    @Test(groups = { "SpaceSuitSets" })
+    public void verifySpaceSuitSetsSort() {
+        DataFileReader testReader = new DataFileReader();
+        Map<String, SpaceSuitSet> testSpaceSuitSets = testReader.getSpaceSuitSets();
+        Set<String> spaceSuitSetKeys = testSpaceSuitSets.keySet();
+        
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[0], "Bounty Hunter 1");
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[42], "Starborn Solis");
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[84], "Zealot");
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsDLCFlagFalse() {
+        DataFileReader testReader = new DataFileReader();
+        
+        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1").getDLCFlag(), false);
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsDLCFlagTrue() {
+        DataFileReader testReader = new DataFileReader();
+        Assert.assertEquals(testReader.getASpaceSuitSet("Fang's").getDLCFlag(), true);
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsDLCFlagFalseCount() {
+        //Use a shared DataFileReader instance to save performance.
+        Map<String, SpaceSuitSet> spaceSuitSets = this.sharedTestReader.getSpaceSuitSets();
+        int countOfFalse = this.countDLCSpaceSuitSets(spaceSuitSets, false);
+        
+        Assert.assertEquals(countOfFalse, 78);
+    }
+
+    @Test(groups = { "Space Suit Sets" })
+    public void verifySpaceSuitSetsDLCFlagTrueCount() {
+        //Use a shared DataFileReader instance to save performance.
+        Map<String, SpaceSuitSet> spaceSuitSets = this.sharedTestReader.getSpaceSuitSets();
+        int countOfTrue = this.countDLCSpaceSuitSets(spaceSuitSets, true);
+        
+        Assert.assertEquals(countOfTrue, 7);
     }
 }

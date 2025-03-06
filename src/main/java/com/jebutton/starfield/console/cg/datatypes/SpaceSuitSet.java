@@ -3,20 +3,35 @@
  */
 package com.jebutton.starfield.console.cg.datatypes;
 
+import java.util.Map;
+
 /**
  * A class for handling Space Suit Sets.
  */
-public class SpaceSuitSet {
-    private ItemType boostPackItem;
+/**
+ * 
+ */
+/**
+ * 
+ */
+/**
+ * 
+ */
+public class SpaceSuitSet extends ItemType {
+    private ItemType packItem;
     private ItemType helmetItem;
     private ItemType spaceSuitItem;
+    
+    public SpaceSuitSet() {
+	super();
+    }
     
     /**
      * Returns the Boost Pack for this Set.
      * @return the boostPackItem
      */
-    public ItemType getBoostPackItem() {
-        return boostPackItem;
+    public ItemType getPackItem() {
+        return packItem;
     }
 
     /**
@@ -38,8 +53,8 @@ public class SpaceSuitSet {
      * Sets the Boost Pack for this Set.
      * @param boostPackItem the boostPackItem to set
      */
-    public void setBoostPackItem(ItemType boostPackItem) {
-        this.boostPackItem = boostPackItem;
+    public void setPackItem(ItemType packItem) {
+        this.packItem = packItem;
     }
     
     /**
@@ -56,5 +71,23 @@ public class SpaceSuitSet {
      */
     public void setSpaceSuitItem(ItemType spaceSuitItem) {
         this.spaceSuitItem = spaceSuitItem;
+    }
+    
+    /**
+     * Converts the class to a String.
+     */
+    public String toString() {
+	StringBuilder output = new StringBuilder();
+	output.append("Name: ");
+	output.append(this.getItemName());
+	output.append(" | Space Suit: ");
+	output.append(this.getSpaceSuitItem());
+	output.append(" | Helmet: ");
+	output.append(this.getHelmetItem());
+	output.append(" | Pack: ");
+	output.append(this.getPackItem());
+	
+	return output.toString();
+	
     }
 }
