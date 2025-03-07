@@ -3,6 +3,9 @@
  */
 package com.jebutton.starfield.console.cg.datatypes;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A class representing an item in the game, like a resource
  * or a weapon.
@@ -30,6 +33,7 @@ public class ItemType {
     public ItemType(String idValue, String itemName) {
         this.setIdValue(idValue);
         this.setItemName(itemName);
+        this.processIDValue();
     }
     
     /**
@@ -41,6 +45,7 @@ public class ItemType {
         this.setIdValue(idValue);
         this.setItemName(itemName);
         this.setItemCategory(itemCategory);
+        this.processIDValue();
     }
 
     public String toString() {
@@ -87,11 +92,27 @@ public class ItemType {
     }
 
     /**
+     * Generates the actual console command to
+     * add the item to the player's inventory.
+     * @param amount The amount of items to add.
+     * @return A Starfield Console Command.
+     */
+    public String getCommand(int amount) {
+	StringBuilder result = new StringBuilder();
+	result.append("player.additem ");
+	result.append(this.getIdValue());
+	result.append(" ");
+	result.append(amount);
+	return result.toString();
+    }
+
+    /**
      * Sets the Item's ID Value.
      * @param idValue String, the Item's Value.
      */
     public void setIdValue(String idValue) {
         this.idValue = idValue;
+        this.processIDValue();
     }
     
     /**
@@ -116,6 +137,41 @@ public class ItemType {
      */
     public void setDLCFlag(boolean isDLC) {
         this.isDLC = isDLC;
+        this.processIDValue();
     }
 
+    /**
+     * Normalizes the ID value to a
+     * 8 character hex code like it should
+     * be in the game.
+     */
+    private void processIDValue() {
+	try {
+	    this.idValue = this.idValue.toUpperCase();           
+	    int existingLength = this.idValue.length();
+	    
+	    if (this.isDLC) {
+    	    	String tempID = this.idValue;
+    	    	tempID = tempID.replace("X", "0");
+    	    	this.idValue = tempID;
+	    }
+	    if (existingLength < 8) {
+		StringBuilder newID = new StringBuilder();
+		for (int i = existingLength - 1 ; i < 8; i++) {
+		    newID.append("0");
+		}
+		newID.append(this.idValue);
+		this.idValue = newID.toString();
+	    }
+	    if (existingLength > 8) {
+		StringBuilder newID = new StringBuilder(this.idValue);
+		newID.delete(0, existingLength - 8);
+		this.idValue = newID.toString();
+	    }
+	    
+	} catch (NullPointerException e) {
+	    System.out.println("ID Value is null for item " + this.itemName);
+	    e.printStackTrace();
+	}
+    }
 }

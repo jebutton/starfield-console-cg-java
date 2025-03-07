@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.testng.Assert;
 
@@ -52,6 +54,31 @@ public class DataReadTests {
     }
 
     /**
+     * Checks to see if any Ids are unprocessed.
+     * @param itemMap The Map<String, ItemType> of the items.
+     * @return boolean - Whether any of the IDs are unprocessed.
+     */
+    private boolean checkIDs(Map<String, ItemType> itemMap) {
+	boolean isValid = true;
+        for (Entry<String, ItemType> item : itemMap.entrySet()) {
+            String id = item.getValue().getIdValue().toLowerCase();
+            String regex = "[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]";
+    	    Pattern nonHexLetters = Pattern.compile(regex);
+            Matcher matchingText = nonHexLetters.matcher(id); 
+            isValid = matchingText.matches();
+            if (isValid == false) {
+        	StringBuilder errorMsg = new StringBuilder();
+        	errorMsg.append("Item ");
+        	errorMsg.append(item.getValue().getItemName());
+        	errorMsg.append(" Has a bad ID: ");
+        	errorMsg.append(id);
+        	System.out.println(errorMsg.toString());
+        	break;
+            }
+        }        
+        return isValid;
+    }
+    /**
     * Sets up a Shared instance of the DataFileReader class
     * so that tests that involve checking the data don't
     * cause performance hits. This happens when constantly
@@ -87,6 +114,13 @@ public class DataReadTests {
         Assert.assertEquals(resourceKeys.toArray()[0], "Adaptive Frame");
         Assert.assertEquals(resourceKeys.toArray()[54], "Microsecond Regulator");
         Assert.assertEquals(resourceKeys.toArray()[106], "Zero-G Gimbal");
+    }
+    
+    @Test(groups = { "Resources" })
+    public void verifyResourceIDs() {       
+        Map<String, ItemType> testResources = sharedTestReader.getResources();
+                
+        Assert.assertEquals(this.checkIDs(testResources), true);
     }
 
     @Test(groups = { "Space Suits" })
@@ -146,7 +180,13 @@ public class DataReadTests {
         
         Assert.assertEquals(countOfTrue, 7);
     }
-   
+    
+    @Test(groups = { "Space Suits" })
+    public void verifySpaceSuitIDs() {
+        Map<String, ItemType> testSpaceSuits = sharedTestReader.getSpaceSuits();
+                
+        Assert.assertEquals(this.checkIDs(testSpaceSuits), true);
+    }
     @Test(groups = { "Helmets" })
     public void verifyHelmetsLoad() {
         DataFileReader testReader = new DataFileReader();
@@ -204,6 +244,13 @@ public class DataReadTests {
         Assert.assertEquals(countOfTrue, 7);
     }
     
+    @Test(groups = { "Helmets" })
+    public void verifyHelmetsIDs() {
+        Map<String, ItemType> testHelmets = sharedTestReader.getHelmets();
+        
+        Assert.assertEquals(this.checkIDs(testHelmets), true);
+    }
+    
     @Test(groups = { "Packs" })
     public void verifyPacksLoad() {
         DataFileReader testReader = new DataFileReader();
@@ -259,6 +306,13 @@ public class DataReadTests {
         int countOfTrue = this.countDLCs(packs, true);
         
         Assert.assertEquals(countOfTrue, 5);
+    }
+    
+    @Test(groups = { "Packs" })
+    public void verifyPackIDs() {
+        Map<String, ItemType> testPacks = sharedTestReader.getPacks();
+        
+        Assert.assertEquals(this.checkIDs(testPacks), true);
     }
 
     @Test(groups = { "Space Suit Sets" })

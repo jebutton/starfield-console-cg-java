@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="DataReadTests">
-
     <test thread-count="5" name ="DataReadTest">
         <groups>
             <run>
@@ -19,3 +18,16 @@
     </test>
 
 </suite> <!-- DataReadTests -->
+<suite name="ItemTypeTests">
+    <test thread-count="5" name ="ItemTypeTests">
+        <groups>
+            <run>
+                <include name="ID Validation"/>
+                <include name="Console Commands"/>                
+            </run>
+        </groups>
+        <classes>
+            <class name="com.jebutton.starfield.console.cg.tests.ItemTypeTests" />
+        </classes>
+    </test>
+</suite> <!-- ItemTypeTests -->
