@@ -94,7 +94,7 @@ public class DataReadTests {
     public void verifyResourcesLoad() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getAResource("Argon").getItemName(), "Argon");
+        Assert.assertEquals(testReader.getAResource("Argon".toLowerCase()).getItemName(), "Argon");
       }
 
     @Test(groups = { "Resources" })
@@ -111,9 +111,9 @@ public class DataReadTests {
         Map<String, ItemType> testResources = testReader.getResources();
         Set<String> resourceKeys = testResources.keySet();
         
-        Assert.assertEquals(resourceKeys.toArray()[0], "Adaptive Frame");
-        Assert.assertEquals(resourceKeys.toArray()[54], "Microsecond Regulator");
-        Assert.assertEquals(resourceKeys.toArray()[106], "Zero-G Gimbal");
+        Assert.assertEquals(resourceKeys.toArray()[0], "Adaptive Frame".toLowerCase());
+        Assert.assertEquals(resourceKeys.toArray()[54], "Microsecond Regulator".toLowerCase());
+        Assert.assertEquals(resourceKeys.toArray()[106], "Zero-G Gimbal".toLowerCase());
     }
     
     @Test(groups = { "Resources" })
@@ -127,7 +127,8 @@ public class DataReadTests {
     public void verifySpaceSuitsLoad() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getASpaceSuit("Bounty Hunter Spacesuit").getItemName(), "Bounty Hunter Spacesuit");
+        Assert.assertEquals(testReader.getASpaceSuit("Bounty Hunter Spacesuit".toLowerCase()).getItemName(),
+        	"Bounty Hunter Spacesuit");
     }
 
     @Test(groups = { "Space Suits" })
@@ -144,23 +145,25 @@ public class DataReadTests {
         Map<String, ItemType> testSpaceSuits = testReader.getSpaceSuits();
         Set<String> suitKeys = testSpaceSuits.keySet();
         
-        Assert.assertEquals(suitKeys.toArray()[0], "Bounty Hunter Spacesuit");
-        Assert.assertEquals(suitKeys.toArray()[35], "Starborn Spacesuit Solis");
-        Assert.assertEquals(suitKeys.toArray()[64], "Zealot Spacesuit");
+        Assert.assertEquals(suitKeys.toArray()[0], "Bounty Hunter Spacesuit".toLowerCase());
+        Assert.assertEquals(suitKeys.toArray()[35], "Starborn Spacesuit Solis".toLowerCase());
+        Assert.assertEquals(suitKeys.toArray()[64], "Zealot Spacesuit".toLowerCase());
     }
 
     @Test(groups = { "Space Suits" })
     public void verifySpaceSuitsDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getASpaceSuit("Bounty Hunter Spacesuit").getDLCFlag(), false);
+        Assert.assertEquals(testReader.getASpaceSuit("Bounty Hunter Spacesuit".toLowerCase()).getDLCFlag(),
+        	false);
     }
 
     @Test
     public void verifySpaceSuitsDLCFlagTrue() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getASpaceSuit("Va'ruun Assault Spacesuit").getDLCFlag(), true);
+        Assert.assertEquals(testReader.getASpaceSuit("Va'ruun Assault Spacesuit".toLowerCase()).getDLCFlag(),
+        	true);
     }
     
     @Test(groups = { "Space Suits" })
@@ -191,7 +194,8 @@ public class DataReadTests {
     public void verifyHelmetsLoad() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet").getItemName(), "Bounty Hunter Space Helmet");
+        Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet".toLowerCase()).getItemName(),
+        	"Bounty Hunter Space Helmet");
     }
 
     @Test(groups = { "Helmets" })
@@ -208,22 +212,22 @@ public class DataReadTests {
         Map<String, ItemType> testHelmets = testReader.getHelmets();
         Set<String> helmetKeys = testHelmets.keySet();
         
-        Assert.assertEquals(helmetKeys.toArray()[0], "Bounty Hunter Space Helmet");
-        Assert.assertEquals(helmetKeys.toArray()[24], "Pirate Sniper Space Helmet");
-        Assert.assertEquals(helmetKeys.toArray()[47], "Zealot Helmet");
+        Assert.assertEquals(helmetKeys.toArray()[0], "Bounty Hunter Space Helmet".toLowerCase());
+        Assert.assertEquals(helmetKeys.toArray()[24], "Pirate Sniper Space Helmet".toLowerCase());
+        Assert.assertEquals(helmetKeys.toArray()[47], "Zealot Helmet".toLowerCase());
     }
 
     @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet").getDLCFlag(), false);
+        Assert.assertEquals(testReader.getAHelmet("Bounty Hunter Space Helmet".toLowerCase()).getDLCFlag(), false);
     }
 
     @Test(groups = { "Helmets" })
     public void verifyHelmetsDLCFlagTrue() {
         DataFileReader testReader = new DataFileReader();
-        Assert.assertEquals(testReader.getAHelmet("Valrak's Battle Helmet").getDLCFlag(), true);
+        Assert.assertEquals(testReader.getAHelmet("Valrak's Battle Helmet".toLowerCase()).getDLCFlag(), true);
     }
 
     @Test(groups = { "Helmets" })
@@ -255,7 +259,7 @@ public class DataReadTests {
     public void verifyPacksLoad() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack").getItemName(), "Bounty Hunter Seek Pack");
+        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack".toLowerCase()).getItemName(), "Bounty Hunter Seek Pack");
     }
 
     @Test(groups = { "Packs" })
@@ -272,22 +276,22 @@ public class DataReadTests {
         Map<String, ItemType> testPacks = testReader.getPacks();
         Set<String> packKeys = testPacks.keySet();
         
-        Assert.assertEquals(packKeys.toArray()[0], "Bounty Hunter Seek Pack");
-        Assert.assertEquals(packKeys.toArray()[21], "Old Earth Pack");
-        Assert.assertEquals(packKeys.toArray()[42], "Zealot Pack");
+        Assert.assertEquals(packKeys.toArray()[0], "Bounty Hunter Seek Pack".toLowerCase());
+        Assert.assertEquals(packKeys.toArray()[21], "Old Earth Pack".toLowerCase());
+        Assert.assertEquals(packKeys.toArray()[42], "Zealot Pack".toLowerCase());
     }
 
     @Test(groups = { "Packs" })
     public void verifyPacksDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack").getDLCFlag(), false);
+        Assert.assertEquals(testReader.getAPack("Bounty Hunter Seek Pack".toLowerCase()).getDLCFlag(), false);
     }
 
     @Test(groups = { "Packs" })
     public void verifyPacksDLCFlagTrue() {
         DataFileReader testReader = new DataFileReader();
-        Assert.assertEquals(testReader.getAPack("Va'ruun Mining Pack").getDLCFlag(), true);
+        Assert.assertEquals(testReader.getAPack("Va'ruun Mining Pack".toLowerCase()).getDLCFlag(), true);
     }
 
     @Test(groups = { "Packs" })
@@ -319,7 +323,8 @@ public class DataReadTests {
     public void verifySpaceSuitSetsLoad() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1").getItemName(), "Bounty Hunter 1");
+        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1".toLowerCase()).getItemName(),
+        	"Bounty Hunter 1");
     }
 
     @Test(groups = { "Space Suit Sets" })
@@ -336,22 +341,22 @@ public class DataReadTests {
         Map<String, SpaceSuitSet> testSpaceSuitSets = testReader.getSpaceSuitSets();
         Set<String> spaceSuitSetKeys = testSpaceSuitSets.keySet();
         
-        Assert.assertEquals(spaceSuitSetKeys.toArray()[0], "Bounty Hunter 1");
-        Assert.assertEquals(spaceSuitSetKeys.toArray()[42], "Starborn Solis");
-        Assert.assertEquals(spaceSuitSetKeys.toArray()[84], "Zealot");
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[0], "Bounty Hunter 1".toLowerCase());
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[42], "Starborn Solis".toLowerCase());
+        Assert.assertEquals(spaceSuitSetKeys.toArray()[84], "Zealot".toLowerCase());
     }
 
     @Test(groups = { "Space Suit Sets" })
     public void verifySpaceSuitSetsDLCFlagFalse() {
         DataFileReader testReader = new DataFileReader();
         
-        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1").getDLCFlag(), false);
+        Assert.assertEquals(testReader.getASpaceSuitSet("Bounty Hunter 1".toLowerCase()).getDLCFlag(), false);
     }
 
     @Test(groups = { "Space Suit Sets" })
     public void verifySpaceSuitSetsDLCFlagTrue() {
         DataFileReader testReader = new DataFileReader();
-        Assert.assertEquals(testReader.getASpaceSuitSet("Fang's").getDLCFlag(), true);
+        Assert.assertEquals(testReader.getASpaceSuitSet("Fang's".toLowerCase()).getDLCFlag(), true);
     }
 
     @Test(groups = { "Space Suit Sets" })

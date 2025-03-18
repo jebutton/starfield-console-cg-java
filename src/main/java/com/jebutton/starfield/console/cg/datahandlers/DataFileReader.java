@@ -140,7 +140,7 @@ public class DataFileReader {
             String itemId = nextRow.getCell(1).getStringCellValue();
             
             ItemType newResource = new ItemType(itemId, itemName);
-            this.resources.put(itemName, newResource);
+            this.resources.put(itemName.toLowerCase(), newResource);
         }
         } catch (FileNotFoundException e) {
             this.handleMissingFiles(this.filePath);
@@ -176,7 +176,7 @@ public class DataFileReader {
                 ItemType newSpaceSuit = new ItemType(itemId, itemName);
                 newSpaceSuit.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
                         
-                this.spaceSuits.put(itemName, newSpaceSuit);
+                this.spaceSuits.put(itemName.toLowerCase(), newSpaceSuit);
             }
             
             } catch (FileNotFoundException e) {
@@ -214,7 +214,7 @@ public class DataFileReader {
                 ItemType newHelmet = new ItemType(itemId, itemName);
                 newHelmet.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
                 
-                this.helmets.put(itemName, newHelmet);
+                this.helmets.put(itemName.toLowerCase(), newHelmet);
             }
       
         } catch (FileNotFoundException e) {
@@ -252,7 +252,7 @@ public class DataFileReader {
                 ItemType newPack = new ItemType(itemId, itemName);
                 newPack.setDLCFlag(this.handleSheetBooleans(nextRow.getCell(2)));
                 
-                this.packs.put(itemName, newPack);
+                this.packs.put(itemName.toLowerCase(), newPack);
             }
       
         } catch (FileNotFoundException e) {
@@ -296,7 +296,7 @@ public class DataFileReader {
                 newSet.setHelmetItem(this.getAHelmet(helmetName));
                 newSet.setPackItem(this.getAPack(packName));
 
-                this.spaceSuitSets.put(itemName, newSet);
+                this.spaceSuitSets.put(itemName.toLowerCase(), newSet);
             }
       
         } catch (FileNotFoundException e) {

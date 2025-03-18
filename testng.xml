@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="DataReadTests">
+<suite name="AllTests">
     <test thread-count="5" name ="DataReadTest">
         <groups>
             <run>
@@ -14,20 +14,30 @@
         <classes>
             <class name="com.jebutton.starfield.console.cg.tests.DataReadTests" />
         </classes>
-
     </test>
-
-</suite> <!-- DataReadTests -->
-<suite name="ItemTypeTests">
     <test thread-count="5" name ="ItemTypeTests">
         <groups>
             <run>
                 <include name="ID Validation"/>
-                <include name="Console Commands"/>                
+                <include name="Console Commands"/>
             </run>
         </groups>
         <classes>
             <class name="com.jebutton.starfield.console.cg.tests.ItemTypeTests" />
         </classes>
     </test>
-</suite> <!-- ItemTypeTests -->
+    <test thread-count="5" name ="BaseMenuTests">
+        <groups>
+            <run>
+                <include name="Chunking"/>
+                <include name="Border"/>
+                <include name="Boxed Line"/>
+                <include name="Prompt"/>
+                <include name= "Command"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.jebutton.starfield.console.cg.tests.BaseMenuTests" />
+        </classes>
+    </test>
+</suite> <!-- DataReadTests -->
