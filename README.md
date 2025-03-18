@@ -15,3 +15,5 @@ This is currently a work in progress, based on [This Python Project I created](h
     - Added Boost Pack (Packs) data.
     - Added Space Suit Sets data.
     - Added more tests.
+* **2025-03-18:**
+    - Added Menu Interaction and tests.
