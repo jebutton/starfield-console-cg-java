@@ -16,6 +16,10 @@ public class NonItemMenu extends BaseMenu {
 
     ArrayList<String> lowerCaseOptions;
 
+    /**
+     * Constructor.
+     * @param menuOptions a List<String> of options to display.
+     */
     public NonItemMenu(List<String> menuOptions) {
 	super();
 	this.setItemNameListNonSort(menuOptions);
@@ -26,8 +30,14 @@ public class NonItemMenu extends BaseMenu {
 	}
     }
 
-    public String printNonItemMenu(Scanner input, String title) {
-	
+    /**
+     * Prints and handles input for a menu
+     * that isn't based around maps of ItemType objects.
+     * @param input Scanner the Shared Scanner instance for the app.
+     * @param title String the title to be displayed at the top of the menu.
+     * @return A String representing the selected menu option.
+     */
+    public String printNonItemMenu(Scanner input, String title) {	
 	MenuUtils.clearScreen();
 	System.out.println(this.getPrettyPrintPrompt(title));	
 	String selection = "";
