@@ -17,16 +17,33 @@ import com.jebutton.starfield.console.cg.datatypes.ItemType;
  * 
  */
 public class BaseMenu {
+    /**
+     * The map of items to be used.
+     */
     protected Map<String, ItemType> itemMap;
+    /**
+     * The maximum chunk size constant.
+     */
     static final int MAXCHUNKSIZE = 12;
+    /**
+     * The list of item names.
+     */
     protected ArrayList<String> itemNameList;
+    /**
+     * The item names that get separated into
+     * chunks when the list of items is updated.
+     */
     protected ArrayList<String[]> chunkedItems;
 
+    /**
+     * Constructor.
+     */
     public BaseMenu () {
 	this.itemNameList = new ArrayList<>();
 	this.itemMap = new LinkedHashMap<>();
 	this.chunkedItems = new ArrayList<>();
     }
+
     /**
      * Splits the menu into chunks.
      */
@@ -172,6 +189,7 @@ public class BaseMenu {
     public void setChunkedItems(List<String[]> chunkedItems) {
 	this.chunkedItems = new ArrayList<>(chunkedItems);
     }
+
     /**
      * Sets the itemMap variable.
      * @param itemMap

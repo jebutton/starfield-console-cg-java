@@ -48,6 +48,9 @@ public class ItemType {
         this.processIDValue();
     }
 
+    /**
+     * Converts the class to a string.
+     */
     public String toString() {
         StringBuilder output = new StringBuilder();
         output.append("itemName: ");

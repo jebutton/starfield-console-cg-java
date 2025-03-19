@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class NonItemMenu extends BaseMenu {
 
-    ArrayList<String> lowerCaseOptions;
+    private ArrayList<String> lowerCaseOptions;
 
     /**
      * Constructor.

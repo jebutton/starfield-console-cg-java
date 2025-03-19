@@ -3,8 +3,6 @@
  */
 package com.jebutton.starfield.console.cg.datahandlers;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +18,8 @@ import org.apache.poi.ss.usermodel.Row;
 import com.jebutton.starfield.console.cg.datatypes.*;
 
 /**
- * Handles the reading of the data sheet with all of the information on it.
+ *  A class to handle the reading of the data sheet
+ *  with all of the information on it.
  */
 public class DataFileReader {
     private String filePath;
@@ -30,12 +29,19 @@ public class DataFileReader {
     private Map<String, ItemType> packs;
     private Map<String, SpaceSuitSet> spaceSuitSets;
 
+    /**
+     * Default Constructor.
+     */
     public DataFileReader() {
         this.filePath = "Starfield_Datatable.xls";
         this.initDataStructures();
         loadData();
     }
 
+    /**
+     * Alternate Constructor.
+     * @param filePath A String of the path of the data shee.
+     */
     public DataFileReader(String filePath) {
         this.filePath = filePath;
         this.initDataStructures();
@@ -135,12 +141,12 @@ public class DataFileReader {
             iterator.next();
             // Iterate through all rows and add each resource to the Resources hashmap.
             while (iterator.hasNext()) {
-            Row nextRow = iterator.next();
-            String itemName = nextRow.getCell(0).getStringCellValue();
-            String itemId = nextRow.getCell(1).getStringCellValue();
+        	Row nextRow = iterator.next();
+        	String itemName = nextRow.getCell(0).getStringCellValue();
+        	String itemId = nextRow.getCell(1).getStringCellValue();
             
-            ItemType newResource = new ItemType(itemId, itemName);
-            this.resources.put(itemName.toLowerCase(), newResource);
+        	ItemType newResource = new ItemType(itemId, itemName);
+        	this.resources.put(itemName.toLowerCase(), newResource);
         }
         } catch (FileNotFoundException e) {
             this.handleMissingFiles(this.filePath);

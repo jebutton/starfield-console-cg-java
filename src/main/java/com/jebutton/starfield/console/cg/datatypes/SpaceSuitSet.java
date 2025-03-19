@@ -3,25 +3,21 @@
  */
 package com.jebutton.starfield.console.cg.datatypes;
 
-import java.util.Map;
-
 /**
  * A class for handling Space Suit Sets.
  */
+
 /**
- * 
- */
-/**
- * 
- */
-/**
- * 
+ * A class for handling Space Suit Sets.
  */
 public class SpaceSuitSet extends ItemType {
     private ItemType packItem;
     private ItemType helmetItem;
     private ItemType spaceSuitItem;
     
+    /**
+     * Default constructor.
+     */
     public SpaceSuitSet() {
 	super();
     }

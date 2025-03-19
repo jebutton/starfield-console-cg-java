@@ -55,6 +55,12 @@ public class StarfieldConsoleCGJava {
         input.close();
     }
 
+    /**
+     * Controls the program flow starting with
+     * the Main Menu.
+     * @return A boolean to determine if it is time to exit 
+     * the program or not.
+     */
     public static boolean handleMainMenu() {
 	ArrayList<String> menuOptions = new ArrayList<>();
 	menuOptions.add("Resources");
@@ -90,6 +96,7 @@ public class StarfieldConsoleCGJava {
 		default:
 		    break;
 	}
+
 	return (done);
     }
 }
