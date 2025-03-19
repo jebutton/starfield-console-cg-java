@@ -36,8 +36,8 @@ public class StarfieldConsoleCGJava {
         boolean done = false;
         
         while (!done) {
-            done = handleMainMenu();
-    	    if (!done) {
+            boolean quit = handleMainMenu();
+    	    if (quit) {
         	    System.out.println("Do you want to continue? Y/N");
         	    String result = input.nextLine();
         	    switch (result.toLowerCase()) {
@@ -47,7 +47,15 @@ public class StarfieldConsoleCGJava {
         	    	case "no":
         	    	    done = true;
         	    	    break;
+        	    	case "yes":
+        	    	    done = false;
+        	    	    break;
+        	    	case "y":
+        	    	    done = false;
+        	    	    break;
         	    	default:
+        	    	    System.out.println("Invalid Input");
+        	    	    done = false;
         	    	    break;
         	    }
     	    }
@@ -70,33 +78,35 @@ public class StarfieldConsoleCGJava {
 	
 	String title = "Main Menu";
 	NonItemMenu mainMenu = new NonItemMenu(menuOptions);
-	String result = mainMenu.printNonItemMenu(input, title);
+	
 	boolean done = false;
 	
-	switch (result.toLowerCase()) {
-		case "resources":
-		    ItemMenu resourcesMenu = new ItemMenu(dataset.getResources());
-		    done = resourcesMenu.printSimpleMenu(input, "List of Resources:");
-		    break;
-		case "space suits":
-		    ItemMenu spaceSuitsMenu = new ItemMenu(dataset.getSpaceSuits());
-		    done = spaceSuitsMenu.printSimpleMenu(input, "List of Space Suits:");
-		    break;
-		case "helmets":
-		    ItemMenu helmetsMenu = new ItemMenu(dataset.getHelmets());
-		    done = helmetsMenu.printSimpleMenu(input, "List of Helmets:");		    
-		    break;
-		case "packs":
-		    ItemMenu packsMenu = new ItemMenu(dataset.getPacks());
-		    done = packsMenu.printSimpleMenu(input, "List of Boost Packs:");		    
-		    break;
-		case "end":
-		    done = true;
-		    break;
-		default:
-		    break;
-	}
-
+	while (!done) {
+	    String result = mainMenu.printNonItemMenu(input, title);
+	    switch (result.toLowerCase()) {
+	    	case "resources":
+	    	    ItemMenu resourcesMenu = new ItemMenu(dataset.getResources());
+	    	    done = resourcesMenu.printSimpleMenu(input, "List of Resources:");
+	    	    break;
+    		case "space suits":
+    		    ItemMenu spaceSuitsMenu = new ItemMenu(dataset.getSpaceSuits());
+    		    done = spaceSuitsMenu.printSimpleMenu(input, "List of Space Suits:");
+    		    break;
+    		case "helmets":
+    		    ItemMenu helmetsMenu = new ItemMenu(dataset.getHelmets());
+    		    done = helmetsMenu.printSimpleMenu(input, "List of Helmets:");		    
+    		    break;
+    		case "packs":
+    		    ItemMenu packsMenu = new ItemMenu(dataset.getPacks());
+    		    done = packsMenu.printSimpleMenu(input, "List of Boost Packs:");		    
+    		    break;
+    		case "end":
+    		    done = true;
+    		    break;
+    		default:
+    		    break;
+    		}
+    	}
 	return (done);
     }
 }

@@ -40,7 +40,7 @@ public class ItemMenu extends BaseMenu{
         		System.out.println(item);
         	    }
         	    boolean valid = false;
-        	    String itemPrompt ="Type Item Name or 'next' to see more or 'end' to quit:";
+        	    String itemPrompt ="Type Item Name or 'next', 'menu', or 'quit':";
         	    while (!valid) {
                 	    if (chunk == chunkedItems.get(chunkedItems.size() - 1)) {
                 		itemPrompt = "Type Item Name or 'end' to quit:";
@@ -54,10 +54,14 @@ public class ItemMenu extends BaseMenu{
                 	    		valid = true;
                 	    	    }                	    	    
                 	    	    break;
-                	    	case "end":
+                	    	case "quit":
                 	    	    valid = true;
                 	    	    done = true;
                 	    	    exit = true;
+                	    	    break;
+                	    	case "menu":
+                	    	    valid = true;
+                	    	    done = true;
                 	    	    break;
                 	    	default:
                 	    	    if (this.itemMap.containsKey(selection)) {
