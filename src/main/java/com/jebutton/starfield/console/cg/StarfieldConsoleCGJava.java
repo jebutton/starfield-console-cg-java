@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.jebutton.starfield.console.cg.datahandlers.DataFileReader;
-import com.jebutton.starfield.console.cg.menusystem.BaseMenu;
+import com.jebutton.starfield.console.cg.menusystem.ItemMenu;
 import com.jebutton.starfield.console.cg.menusystem.NonItemMenu;
 
 
@@ -29,6 +29,7 @@ public class StarfieldConsoleCGJava {
     public static void main(String[] args) {
         dataset = new DataFileReader();
         input = new Scanner(System.in);
+        
         // Print welcome message.
         System.out.println("Welcome to the Starfield Console Code Generator.");       
         
@@ -61,25 +62,26 @@ public class StarfieldConsoleCGJava {
 	menuOptions.add("Helmets");
 	menuOptions.add("Packs");
 	
+	String title = "Main Menu";
 	NonItemMenu mainMenu = new NonItemMenu(menuOptions);
-	String result = mainMenu.printNonItemMenu(input);
+	String result = mainMenu.printNonItemMenu(input, title);
 	boolean done = false;
 	
 	switch (result.toLowerCase()) {
 		case "resources":
-		    BaseMenu resourcesMenu = new BaseMenu(dataset.getResources());
+		    ItemMenu resourcesMenu = new ItemMenu(dataset.getResources());
 		    done = resourcesMenu.printSimpleMenu(input, "List of Resources:");
 		    break;
 		case "space suits":
-		    BaseMenu spaceSuitsMenu = new BaseMenu(dataset.getSpaceSuits());
+		    ItemMenu spaceSuitsMenu = new ItemMenu(dataset.getSpaceSuits());
 		    done = spaceSuitsMenu.printSimpleMenu(input, "List of Space Suits:");
 		    break;
 		case "helmets":
-		    BaseMenu helmetsMenu = new BaseMenu(dataset.getHelmets());
+		    ItemMenu helmetsMenu = new ItemMenu(dataset.getHelmets());
 		    done = helmetsMenu.printSimpleMenu(input, "List of Helmets:");		    
 		    break;
 		case "packs":
-		    BaseMenu packsMenu = new BaseMenu(dataset.getPacks());
+		    ItemMenu packsMenu = new ItemMenu(dataset.getPacks());
 		    done = packsMenu.printSimpleMenu(input, "List of Boost Packs:");		    
 		    break;
 		case "end":

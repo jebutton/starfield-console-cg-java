@@ -1,124 +1,46 @@
 /**
- * A class representing the simplest of Menus.
+ * 
  */
 package com.jebutton.starfield.console.cg.menusystem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.jebutton.starfield.console.cg.datatypes.*;
+import com.jebutton.starfield.console.cg.datatypes.ItemType;
 
 /**
- * A class representing the simplest of Menus.
+ * 
  */
 public class BaseMenu {
     protected Map<String, ItemType> itemMap;
-    protected ArrayList<String> itemNameList;
     static final int MAXCHUNKSIZE = 12;
+    protected ArrayList<String> itemNameList;
     protected ArrayList<String[]> chunkedItems;
-    
-    
-    /**
-     * Constructor.
-     * @param itemMap a Map<String, ItemType> of items.
-     */
-    public BaseMenu(Map<String, ItemType> itemMap) {
-	this.itemMap = itemMap;
+
+    public BaseMenu () {
 	this.itemNameList = new ArrayList<>();
-	for ( Map.Entry<String, ItemType> entry : itemMap.entrySet()) {
-	    itemNameList.add(entry.getValue().getItemName());
-	}
-	
-	Collections.sort(itemNameList);	
-	
+	this.itemMap = new LinkedHashMap<>();
 	this.chunkedItems = new ArrayList<>();
-	chunkMenu();
     }
-    
-    public BaseMenu(List<String> itemNameList) {
-	this.itemNameList = new ArrayList<>(itemNameList);
-	this.chunkedItems = new ArrayList<>();
-	chunkMenu();
-    }
-    
     /**
      * Splits the menu into chunks.
      */
     protected void chunkMenu() {
+	ArrayList<String[]> tempChunks = new ArrayList<>();
 	for(int i=0;i<itemNameList.size();i+=MAXCHUNKSIZE){
-	   this.chunkedItems.add(Arrays.copyOfRange(
+	   tempChunks.add(Arrays.copyOfRange(
 			    this.itemNameList.toArray(new String[0]),
 			    i,
 			    Math.min(itemNameList.size(),
 			    i+MAXCHUNKSIZE)));
 	   
 	}
-    }
-
-    /**
-     * Prints a simple menu and handles input.
-     * @param title A String Title For the Menu.
-     */
-    public boolean printSimpleMenu(Scanner input, String title) {
-	String selection = "";
-	boolean done = false;
-	boolean exit = false;
-	ItemType result = null;
-	for (String[] chunk : chunkedItems) {
-	    
-	    
-	    if (!done) {
-		    MenuUtils.clearScreen();
-		    System.out.println(this.getPrettyPrintPrompt(title));
-        	    for (String item : chunk) {
-        		System.out.println(item);
-        	    }
-        	    boolean valid = false;
-        	    String itemPrompt ="Type Item Name or 'next' to see more or 'end' to quit:";
-        	    while (!valid) {
-                	    if (chunk == chunkedItems.get(chunkedItems.size() - 1)) {
-                		itemPrompt = "Type Item Name or 'end' to quit:";
-                	    }
-        		    System.out.println(this.getPrettyPrintPrompt(itemPrompt));
-                	    selection = input.nextLine();
-                	    selection = selection.toLowerCase();
-                	    switch (selection) {
-                	    	case  "next":
-                	    	    if (chunk != chunkedItems.get(chunkedItems.size() - 1)) {
-                	    		valid = true;
-                	    	    }                	    	    
-                	    	    break;
-                	    	case "end":
-                	    	    valid = true;
-                	    	    done = true;
-                	    	    exit = true;
-                	    	    break;
-                	    	default:
-                	    	    if (this.itemMap.containsKey(selection)) {
-                	    		valid = true;
-                	    		done = true;
-                	    		result = itemMap.get(selection);
-                	    		System.out.println(
-                	    			this.getPrettyPrintCommand(
-                	    				result.getCommand(
-                	    					this.specifyItem(input)
-                	    			)));
-                	    	    }
-                	    	    break;
-                	    }
-                	    if (!valid) {
-                		System.out.println("Invalid Input");
-                	    }
-        	    }
-    		}
-        	else {
-        	    break;
-        	}
-	}
-	return (exit);
+	this.setChunkedItems(tempChunks);
     }
     
     /**
@@ -229,5 +151,49 @@ public class BaseMenu {
      */
     public List<String[]> getChunkedItems() {
 	return this.chunkedItems;
+    }
+    
+    /**
+     * Gets the itemMap()
+     * @return a Map<String, ItemType> of the items.
+     */
+    public Map<String, ItemType> getItemMap() {
+	return this.itemMap;
+    }
+    
+    /**
+     * Gets the itemNameList
+     * @return a List<String> of the item names.
+     */
+    public List<String> getItemNameList() {
+	return this.itemNameList;
+    }
+    
+    public void setChunkedItems(List<String[]> chunkedItems) {
+	this.chunkedItems = new ArrayList<>(chunkedItems);
+    }
+    /**
+     * Sets the itemMap variable.
+     * @param itemMap
+     */
+    public void setItemMap(Map<String, ItemType> itemMap) {
+	this.itemMap = itemMap;
+	ArrayList<String> tempList = new ArrayList<>();
+	for ( Map.Entry<String, ItemType> entry : itemMap.entrySet()) {
+	    tempList.add(entry.getValue().getItemName());
+	}
+	this.setItemNameList(tempList);
+	this.chunkMenu();
+	
+    }
+    
+    /**
+     * Sets the itemNameList variable.
+     * @param itemNameList
+     */
+    public void setItemNameList(List<String> itemNameList) {
+	this.itemNameList = new ArrayList<>(itemNameList);
+	Collections.sort(this.itemNameList);
+	this.chunkMenu();
     }
 }

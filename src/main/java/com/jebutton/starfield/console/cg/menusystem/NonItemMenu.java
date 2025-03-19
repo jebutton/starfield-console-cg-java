@@ -1,35 +1,39 @@
 /**
- * 
+ * A class for menus that aren't based on ItemType objects.
  */
 package com.jebutton.starfield.console.cg.menusystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 
 /**
- * 
+ * A class for menus that aren't based on ItemType objects.
  */
 public class NonItemMenu extends BaseMenu {
 
     ArrayList<String> lowerCaseOptions;
+
     public NonItemMenu(List<String> menuOptions) {
-	super(menuOptions);
+	super();
+	this.setItemNameListNonSort(menuOptions);
+	
 	lowerCaseOptions = new ArrayList<>();
-	for (String option : menuOptions) {
+	for (String option : this.getItemNameList()) {
 	    lowerCaseOptions.add(option.toLowerCase());
 	}
     }
 
-    public String printNonItemMenu(Scanner input) {
-	String title = "Main Menu";
+    public String printNonItemMenu(Scanner input, String title) {
+	
 	MenuUtils.clearScreen();
 	System.out.println(this.getPrettyPrintPrompt(title));	
 	String selection = "";
 	boolean done = false;
 	String result = null;
-	for (String[] chunk : chunkedItems) {
+	for (String[] chunk : this.getChunkedItems()) {
 	    if (!done) {
         	    for (String item : chunk) {
         		System.out.println(item);
@@ -66,5 +70,14 @@ public class NonItemMenu extends BaseMenu {
             }
 	}
 	return (result);
+    }
+    
+    /**
+     * Sets the itemNameList variable.
+     * @param itemNameList
+     */
+    public void setItemNameListNonSort(List<String> itemNameList) {
+	this.itemNameList = new ArrayList<>(itemNameList);
+	this.chunkMenu();
     }
 }

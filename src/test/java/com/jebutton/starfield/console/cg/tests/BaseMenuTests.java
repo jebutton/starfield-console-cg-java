@@ -21,7 +21,6 @@ public class BaseMenuTests {
     private LinkedHashMap<String, ItemType> generateMapByLength(int length){
 	LinkedHashMap<String, ItemType> testMap = new LinkedHashMap<String, ItemType>();
 	
-	
 	// Populate the map.
 	for (int i=0; i<length; i++) {
 	    String itemID = "" + i;
@@ -36,8 +35,7 @@ public class BaseMenuTests {
     
     @BeforeGroups(groups = {"Border", "Boxed Line", "Prompt", "Command"})
     public void genSharedBaseMenu() {
-	Map<String, ItemType> testMap= this.generateMapByLength(1);
-        this.sharedMenu = new BaseMenu(testMap);
+        this.sharedMenu = new BaseMenu();
     }
     
     /**
@@ -48,7 +46,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void chunkSizeLessThanByOne() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize - 1);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 1);
@@ -63,7 +62,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeLessThanByTwo() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize - 2);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 1);
@@ -77,7 +77,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeEqualSize() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 1);
@@ -92,7 +93,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeMoreThanByOne() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize + 1);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 2);
@@ -108,7 +110,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeMoreThanByTwo() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize + 2);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 2);
@@ -124,7 +127,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeEqualsDouble() {
 	Map<String, ItemType> testMap= this.generateMapByLength(this.chunkSize * 2);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 2);
@@ -140,7 +144,8 @@ public class BaseMenuTests {
     @Test(groups = { "Chunking" })
     public void testChunkSizeEqualsDoublePlusOne() {
 	Map<String, ItemType> testMap= this.generateMapByLength((this.chunkSize * 2) + 1);
-        BaseMenu testMenu = new BaseMenu(testMap);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 3);
@@ -156,8 +161,9 @@ public class BaseMenuTests {
      */
     @Test(groups = { "Chunking" })
     public void testChunkSizeEqualsDoubleMinusOne() {
-	Map<String, ItemType> testMap= this.generateMapByLength((this.chunkSize * 2) - 1);
-        BaseMenu testMenu = new BaseMenu(testMap);
+	Map<String, ItemType> testMap = this.generateMapByLength((this.chunkSize * 2) - 1);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
         ArrayList<String[]> chunks = new ArrayList<String[]>(testMenu.getChunkedItems());
         
         Assert.assertEquals(chunks.size(), 2);
@@ -311,5 +317,65 @@ public class BaseMenuTests {
 	expectedResult.append("====\n\n");
 	
 	Assert.assertEquals(result, expectedResult.toString());
+    }
+
+    /**
+     * Tests that the .setItemMap() method works
+     * for non-empty values.
+     */
+    @Test(groups = { "Setters" })
+    public void testSetItemMapValid() {
+	Map<String, ItemType> testMap = this.generateMapByLength(1);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
+        
+	Assert.assertEquals(testMenu.getItemMap().size(), 1);
+	Assert.assertEquals(testMenu.getItemNameList().size(), 1);
+    }
+    
+    /**
+     * Tests that the .setItemMap() method works
+     * for zero-sized values.
+     */
+    @Test(groups = { "Setters" })
+    public void testSetItemMapZeroLength() {
+	Map<String, ItemType> testMap = this.generateMapByLength(0);
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemMap(testMap);
+        
+	Assert.assertEquals(testMenu.getItemMap().size(), 0);
+	Assert.assertEquals(testMenu.getItemNameList().size(), 0);
+    }
+    
+    /**
+     * Tests that the .setItemNameList() method works
+     * for non-empty values.
+     */
+    @Test(groups = { "Setters" })
+    public void testSetItemNameListValid() {
+	ArrayList<String> testNameList = new ArrayList<>();
+	testNameList.add("Test Name 2");
+	testNameList.add("Test Name 1");
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemNameList(testNameList);
+        
+	Assert.assertEquals(testMenu.getItemNameList().size(), 2);
+	Assert.assertEquals(testMenu.getChunkedItems().size(), 1);
+	Assert.assertEquals(testMenu.getItemNameList().get(0), "Test Name 1");
+	Assert.assertEquals(testMenu.getItemNameList().get(1), "Test Name 2");
+    }
+    
+    /**
+     * Tests that the .setItemNameList() method works
+     * for zero-lengths values.
+     */
+    @Test(groups = { "Setters" })
+    public void testSetItemNameListZeroLength() {
+	ArrayList<String> testNameList = new ArrayList<>();
+        BaseMenu testMenu = new BaseMenu();
+        testMenu.setItemNameList(testNameList);
+        
+	Assert.assertEquals(testMenu.getItemNameList().size(), 0);
+	Assert.assertEquals(testMenu.getChunkedItems().size(), 0);
     }
 }

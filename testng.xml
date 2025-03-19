@@ -34,6 +34,7 @@
                 <include name="Boxed Line"/>
                 <include name="Prompt"/>
                 <include name= "Command"/>
+                <include name= "Setters"/>
             </run>
         </groups>
         <classes>
