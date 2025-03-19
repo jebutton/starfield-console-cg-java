@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * A class representing an item in the game, like a resource
  * or a weapon.
  */
-public class ItemType {
+public class ItemType implements Comparable<ItemType> {
     private String idValue;
     private String itemName;
     private String itemCategory;
@@ -23,6 +23,7 @@ public class ItemType {
         this.idValue = "";
         this.itemName = "";
         this.itemCategory = "";
+        this.isDLC = false;
     }
     
     /**
@@ -34,6 +35,7 @@ public class ItemType {
         this.setIdValue(idValue);
         this.setItemName(itemName);
         this.processIDValue();
+        this.isDLC = false;
     }
     
     /**
@@ -54,11 +56,13 @@ public class ItemType {
     public String toString() {
         StringBuilder output = new StringBuilder();
         output.append("itemName: ");
-        output.append(this.itemName);
+        output.append(this.getItemName());
         output.append(" | idValue: ");
-        output.append(this.idValue);
+        output.append(this.getIdValue());
         output.append(" | itemCategory: ");
-        output.append(this.itemCategory);
+        output.append(this.getItemCategory());
+        output.append(" | isDLC: ");
+        output.append(this.getDLCFlag());
         return output.toString();
     }
     
@@ -176,5 +180,67 @@ public class ItemType {
 	    System.out.println("ID Value is null for item " + this.itemName);
 	    e.printStackTrace();
 	}
+    }
+
+    
+    @Override
+    /**
+     * Implements the Comparable interface.
+     */
+    public int compareTo(ItemType o) {
+        if (this.itemName.compareTo(o.itemName) != 0) {
+            return this.itemName.compareTo(o.itemName);
+        } else if (this.getIdValue().compareTo(o.getIdValue()) != 0) {
+            return this.getIdValue().compareTo(o.getIdValue());
+        } else if (this.getItemCategory().compareTo(o.getItemCategory()) != 0) {
+            return this.getItemCategory().compareTo(o.getItemCategory());
+        } else if (this.getDLCFlag() == true && o.getDLCFlag() == false) {
+            return -1;
+        } else if (this.getDLCFlag() == false && o.getDLCFlag() == true) {
+           return 1;
+        } else {
+           return 0;
+        }	
+    }
+    
+    @Override
+    /**
+     * Overrides Object.equals(Object)
+     */
+    public boolean equals(Object o) {
+	try {
+	    if (o == null) {
+		return false;
+	    }
+	    if (o == this) {
+		return true;
+	    }
+	    if (o.getClass() == this.getClass()) {
+		ItemType compItem = (ItemType) o;
+		return this.itemName.equals(compItem.itemName)
+			&& this.idValue.equals(compItem.idValue)
+			&& this.itemCategory.equals(compItem.itemCategory)
+			&& this.isDLC == compItem.isDLC;
+            	} else {
+            	    return false;
+            	}
+        } catch (NullPointerException e) {
+            System.out.println("One of the objects is null.");
+            e.printStackTrace();
+        } 
+	return false;
+    }
+    
+    @Override
+    /**
+     * Overrides Object.hashCode()
+     */
+    public int hashCode() {
+	int hash = 0;
+	if (this.getDLCFlag()) {
+	    hash = 1;
+	}
+	hash += this.getItemName().hashCode() * this.getIdValue().hashCode() * this.getItemCategory().hashCode();
+        return hash;
     }
 }
